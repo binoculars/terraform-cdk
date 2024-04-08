@@ -513,10 +513,21 @@ class Parser {
       const name = toCamelCase(terraformName);
       let optional: boolean;
       let required: boolean;
+
       switch (blockType.nesting_mode) {
         case "single":
           optional = !struct.attributes.some((x) => !x.optional);
           required = !struct.attributes.some((x) => !x.required);
+
+          // This is for bug #3570 as both optional and required evaluate to false under some circumstances
+          // (this then causes the computed block to not be part of assignableAttributes and thus skipped in the generated code)
+          // Hence: If both optional and required are false, set optional to true IF at least one
+          // attribute in the block has optional = true or required = true, as this would mean that at least something can be set
+          // and the block is not all computed.
+          if (!optional && !required) {
+            optional = struct.attributes.some((x) => x.optional || x.required);
+          }
+
           return new AttributeModel({
             name,
             terraformName,
