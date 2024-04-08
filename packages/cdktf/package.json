@@ -112,7 +112,7 @@
     "@types/semver": "7.5.8",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
-    "constructs": "10.1.167",
+    "constructs": "10.3.0",
     "eslint": "7.32.0",
     "eslint-plugin-jsdoc": "39.9.1",
     "eslint-plugin-no-instanceof": "1.0.1",
